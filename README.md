@@ -52,6 +52,7 @@ model) does not control its dependencies (the database connection), but rather t
 module's user (the app). This is done by having the module export a function that returns what it normally would export,
 and this function accepts as arguments its dependencies.
 
+```js
 // models/user.js
 module.exports = (dbConnection) => {
   class User {
@@ -83,7 +84,7 @@ user.save((err) => {
 With this setup, a unit test can easily mock the database connection in order to observe which method is being called by
 `save`, without performing any database interactions.
 
-```
+```js
 // tests/models/user.js
 const User = require('../models/user')({
   insert: (data, callback) => { ... },
