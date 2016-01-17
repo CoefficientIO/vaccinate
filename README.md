@@ -2,10 +2,10 @@
 
 Vaccinate is an inversion of control (IoC) module that is probably too simple to qualify as actual IoC, but may require
 the lowest learning curve or adjustments to existing code. It is a very simple design pattern in which, instead of
-exporting the value that the developer would have for a particular module, she instead exports a function that returns
-the value. The function accepts as parameters its various dependencies, which allows the developer to override these
-dependencies in unit tests. Vaccinate only works in environments where modules can be loaded synchronously (i.e. by
-`require()`).
+exporting the value that the developer would have for a particular module, he/she instead exports a function that
+returns the value. The function accepts as parameters its various dependencies, which allows the developer to override
+these dependencies in unit tests. Vaccinate only works in environments where modules can be loaded synchronously (i.e.
+by `require()`) and does not support circular dependencies by default.
 
 ## The Problem
 
