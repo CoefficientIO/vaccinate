@@ -1,6 +1,6 @@
 {
   "name": "vaccinate",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "An inversion-of-control utility to replace `require()` calls",
   "main": "./lib/index.js",
   "scripts": {

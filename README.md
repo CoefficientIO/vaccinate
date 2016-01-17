@@ -192,21 +192,23 @@ module.exports.$vaccinations = ['./dbConnection', 'fs'];
 
 // modules/db-connection.js
 module.exports = (mongodb, mongoConfig) => {
-  var db, onReady = [];
-  mongodb.MongoClient.connect(mongoConfig.url, (err, _db) => {
-    if (err) throw err;
-    db = _db;
-    onReady.forEach((fn) => fn());
+  var dbReady = new Promise((resolve, reject) => {
+    mongodb.MongoClient.connect(mongoConfig.url, (err, db) => {
+      if (err) throw err;
+      resolve(db);
+    });
   });
   
   return {
     insert: (record, callback) => {
-      db ? insert() : onReady.push(ins);
-      function insert () { db.collection('users').insert(record, callback); }
+      dbReady.then(() => {
+        db.collection('users').insert(record, callback);
+      });
     },
     update: (criteria, record, callback) => {
-      db ? update() : onReady.push(ins);
-      function update () { db.collection('users').update(criteria, record, callback); }
+      dbReady.then(() => {
+        db.collection('users').update(criteria, record, callback);
+      });
     }
   };
 };
