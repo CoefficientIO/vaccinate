@@ -55,7 +55,7 @@ and this function accepts as arguments its dependencies.
 ```js
 // models/user.js
 module.exports = (dbConnection) => {
-  class User {
+  return class User {
     constructor (formData) {
       this.formData = formData;
     }
@@ -129,16 +129,18 @@ function, passing in the dependencies as arguments. The app calls `vaccinate()` 
 while the tests don't use Vaccinate at all, or they override how Vaccinate requires dependencies and pass different
 values in.
 
-### `vaccinate (func [, options])`
+### vaccinate (func [, options])
 
-The `vaccinate` function accepts the IoC'd module function and an optional hash of options, described below.
+The `vaccinate()` function accepts two parameters:
 
-* *string* `dependenciesProperty`: The name of the array of dependency names. **Default:** `'$vaccinations'`
-* *string* `moduleDir`: The *absolute* path to where Vaccinate should look in to find modules whose names begin with
+* *Function* `func`: The IoC'd function to invoke with the dependencies
+* *object* `options`: A hash of options (optional)
+  * *string* `dependenciesProperty`: The name of the array of dependency names. **Default:** `'$vaccinations'`
+  * *string* `moduleDir`: The *absolute* path to where Vaccinate should look in to find modules whose names begin with
 `./`. For instance, if Vaccinate is used in `app.js` in your project root and this value is `__dirname + '/modules'`,
 then regardless of the location of `user.js`, `./db-connection` will *always* resolve to
 `[project root]/modules/db-connection.js`. **Default:** *None*
-* *Function* `require`: The function that accepts a dependency name and the options hash and returns the dependency.
+  * *Function* `require`: The function that accepts a dependency name and the options hash and returns the dependency.
 Generally this function is useful to override in your unit test suite. **Default:** By default, this function will
 prepend the module name with the value of `options.moduleDir` if it begins with `./`, then invoke `require()` on it. If
 the result of `require()` is a function with a `options.dependenciesProperty` property on it, it will be recursively
@@ -153,9 +155,8 @@ The default options can be overridden by setting the options listed above on `va
 
 ```js
 // app.js
-const vaccinate = require('vaccinate', {
-  moduleDir: __dirname + '/modules'
-});
+const vaccinate = require('vaccinate');
+vaccinate.defaults.moduleDir = __dirname + '/modules';
 const User = vaccinate(require('./models/user'));
 
 var user = new User({email: 'some email'});
@@ -165,7 +166,7 @@ user.save((err) => {
 });
 
 // models/user.js
-module.exports = (dbConnection) => {
+module.exports = (dbConnection, fs) => {
   class User {
     constructor (formData) {
       this.formData = formData;
