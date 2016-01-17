@@ -136,10 +136,11 @@ The `vaccinate()` function accepts two parameters:
 * *Function* `func`: The IoC'd function to invoke with the dependencies
 * *object* `options`: A hash of options (optional)
   * *string* `dependenciesProperty`: The name of the array of dependency names. **Default:** `'$vaccinations'`
-  * *string* `moduleDir`: The *absolute* path to where Vaccinate should look in to find modules whose names begin with
-`./`. For instance, if Vaccinate is used in `app.js` in your project root and this value is `__dirname + '/modules'`,
-then regardless of the location of `user.js`, `./db-connection` will *always* resolve to
-`[project root]/modules/db-connection.js`. **Default:** *None*
+  * *string|[string]* `moduleDir`: The *absolute* path to where Vaccinate should look in to find modules whose names
+    begin with `./`. For instance, if Vaccinate is used in `app.js` in your project root and this value is
+    `__dirname + '/modules'`, then regardless of the location of `user.js`, `./db-connection` will *always* resolve to
+    `[project root]/modules/db-connection.js`. If this value is an array, each directory is tried and the first to
+     resolve with the module name is used. **Default:** *None*
   * *Function* `require`: The function that accepts a dependency name and the options hash and returns the dependency.
 Generally this function is useful to override in your unit test suite. **Default:** By default, this function will
 prepend the module name with the value of `options.moduleDir` if it begins with `./`, then invoke `require()` on it. If
@@ -218,22 +219,7 @@ module.exports = {
 
 // tests/models/user.js
 const vaccinate = require('vaccinate');
-vaccinate.defaults.require = (module, options) => {
-  if (typeof module !== 'string') return module;
-    
-  var dependency;
-  try {
-    dependency = require(__dirname + '/../mocks/' + module);
-  } catch (ex) {
-    if (options.moduleDir && _.startsWith(module, './')) module = '../../modules/' + module;
-    dependency = require(module);
-  }
-    
-  if (typeof dependency === 'function' && Array.isArray(dependency[options.dependenciesProperty])) {
-    dependency = vaccinate(dependency, options);
-  }
-  return dependency;
-};
+vaccinate.defaults.moduleDir = [__dirname + '/../mocks', __dirname + '/../../modules'];
 const User = vaccinate(require('./models/user'));
 
 describe('User', () => {
