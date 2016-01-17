@@ -1,0 +1,38 @@
+{
+  "name": "vaccinate",
+  "version": "0.1.0",
+  "description": "An inversion-of-control utility to replace `require()` calls",
+  "main": "./lib/index.js",
+  "scripts": {
+    "test": "mocha -b",
+    "prepublish": "npm prune"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CoefficientIO/vaccinate.git"
+  },
+  "keywords": [
+    "ioc",
+    "inversion",
+    "of",
+    "control",
+    "require",
+    "unit",
+    "testing",
+    "dependency",
+    "injection"
+  ],
+  "author": "Matt Miller",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/CoefficientIO/vaccinate/issues"
+  },
+  "homepage": "https://github.com/CoefficientIO/vaccinate#readme",
+  "devDependencies": {
+    "mocha": "2.3.4",
+    "should": "8.1.1"
+  },
+  "dependencies": {
+    "lodash": "4.0.0"
+  }
+}
