@@ -137,15 +137,11 @@ describe('vaccinate', () => {
 		should(lodashArg.assign).be.Function();
 
 		delete vaccinate.defaults.moduleDir;
-	})
+	});
 
-	function createUser (User, logger) {
-		return (formData) => {
-			var user = new User(formData);
-			user.save();
-			logger.log('New user created with ID ' + user.id);
-		};
-	}
-	createUser.$vaccinations = [__dirname + '/modules/user', __dirname + '/modules/logger'];
-
+	it('simply passes back the first parameter to vaccinate if it is not a function or does not have vaccinations', () => {
+		should(vaccinate('not a function')).equal('not a function');
+		function noVaccinations () {}
+		should(vaccinate(noVaccinations)).equal(noVaccinations);
+	});
 });
