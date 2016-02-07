@@ -260,8 +260,3 @@ module.exports = {
 
 Vaccinate has a suite of Mocha tests in the `test/` directory. Run the tests by installing Vaccinate with its dev
 dependencies and then running `npm test`.
-
-## Todos
-
-* Remove dependency of Lodash -- we only need `_.defaults` and `_.startsWith`
-* Rewrite ES6 in ES5 to be compatible with older versions of Node.js
