@@ -1,6 +1,6 @@
 {
   "name": "vaccinate",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "An inversion-of-control utility to replace `require()` calls",
   "main": "./lib/index.js",
   "scripts": {
@@ -36,6 +36,6 @@
     "lodash": "4.0.0"
   },
   "engines": {
-    "node" : ">=4.0.0"
+    "node": ">=4.0.0"
   }
 }
